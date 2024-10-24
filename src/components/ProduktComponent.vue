@@ -1,41 +1,59 @@
 <template>
   <div class="ProduktCard-container">
-    <div v-for="produkt in filtrerProdukter" :key="produkt.titel">
-      <div class="film-image">
-        <img :src="produkt.img" alt="Film Poster" />
+    <div v-for="product in filtrerProdukter" :key="product.titel">
+      <div class="product-image">
+        <img :src="product.img" alt="Film Poster" />
       </div>
-      <div class="film-info">
-        <h2 class="film-titel">{{ produkt.titel }}</h2>
+      <div class="product-info">
+        <h2 class="product-title">{{ produkt.titel }}</h2>
 
-        <p class="film-beskrivelse">Katagori:{{ produkt.katagori }}</p>
-        <p class="film-pris">Pris: {{ produkt.pris }} kr</p>
-        <button @click="tilfojTilKurv">Tilføj til kurv</button>
-        <button @click="redigerProdukt(produkt)">Rediger produkt</button>
-        <button @click="sletProdukt(produkt.id)">Slet produkt</button>
+        <p class="product-catagori">Katagori:{{ product.katagori }}</p>
+        <p class="product-price">Pris: {{ product.pris }} kr</p>
+        <button @click="addToCart()">Tilføj til kurv</button>
+        <button @click="editProduct(product)">Rediger produkt</button>
+        <button @click="sletProdukt(product.id)">Slet produkt</button>
       </div>
     </div>
-    <modal v-if="åbenRedigerProdukt" @click="lukRedigerProdukt">
+    <modal v-if="openEditProduct" @click="closeEditProduct">
       <h2>Rediger Produkt</h2>
-      <ProdukForm :produkt="valgtProdukt" @submit="opdaterProdukt" />
+      <ProductForm :product="chosenProduct" @submit="updateProduct" />
     </modal>
-    <modal v-if="åbenSletProdukt" @click="lukSletProdukt">
+    <modal v-if="openDeleProduct" @click="closeDeleteProduct">
       <h2>Rediger Produkt</h2>
-      <ProdukForm :produkt="valgtProdukt" @submit="opdaterProdukt" />
+      <ProdukForm :product="chosenProduct" @submit="updateProduct" />
     </modal>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue"
-import { produkter } from "../Models/ProdukterDatabase"
+import { products } from "@/models/ProductsDatabase"
 
 const filtrerProdukter = computed(() => {
-  return produkter.map((produkt) => ({
-    ...produkt,
+  return products.map((product) => ({
+    ...product,
   }))
 })
 
-const tilfojTilKurv = (produkt) => {
-  this.kurv.push({ ...produkt })
+const addToCart = (product) => {
+  this.cart.push({ ...product })
 }
 </script>
+
+<style>
+.ProduktCard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.film-image img {
+  width: 100%;
+  height: auto;
+}
+.film-info {
+  text-align: center;
+}
+</style>

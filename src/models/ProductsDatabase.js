@@ -1,4 +1,4 @@
-export let produkter = [
+export let products = [
   {
     id: 1,
     titel: "Trådløs Mus",
