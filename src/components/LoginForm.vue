@@ -36,8 +36,10 @@ const handleLogin = async () => {
 
         if (result.success) {
             successMessage.value = `User ${result.user.email} logged in successfully!`;
+            errorMessage.value = ""
         } else {
             errorMessage.value = result.message;
+            successMessage.value = ""
         }
     } else {
         alert("Email is incorrectly typed")

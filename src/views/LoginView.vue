@@ -1,7 +1,10 @@
 <template>
-    <button @click="toggleForm">{{ isLogin ? 'Go to Signup' : 'Go to Login' }}</button>
-    <LoginForm v-if="isLogin" />
-    <SignupForm v-else />
+    <div class="login-view-container">
+        <LoginForm v-if="isLogin" />
+        <SignupForm v-else />
+        <button @click="toggleForm">{{ isLogin ? 'New user? Signup here' : 'Already have an account? Go to Login'
+            }}</button>
+    </div>
 </template>
 
 <script setup>
@@ -18,4 +21,4 @@ const toggleForm = () => {
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss"></style>
