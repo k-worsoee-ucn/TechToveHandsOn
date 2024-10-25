@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="handleSubmit">
     <div id="editTitle">
       <label></label>
       <input type="text" v-model="productData.titel" id="titel" />
@@ -12,15 +12,17 @@
       <label></label>
       <input type="text" v-model="productData.pris" id="pris" />
     </div>
-    <button type="submit" @click="handleSubmit">Tilføj ændringer</button>
+    <button type="submit" @click="handleSubmit">
+      {{ mode === "add" ? "Tilføj produkt" : "Gem ændringer" }}
+    </button>
   </form>
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue"
+import { ref, watch } from "vue"
 
 const props = defineProps({
-  produkt: {
+  product: {
     type: Object,
     default: () => ({ titel: "", kategori: "", pris: 0 }),
   },
@@ -28,14 +30,17 @@ const props = defineProps({
 
 const emit = defineEmits(["submit"])
 
-const produktData = ref({ ...props.produkt })
+const productData = ref({ ...props.product })
 
-watchEffect(() => {
-  produktData.value = { ...props.produkt }
-})
+watch(
+  () => props.product,
+  (newVal) => {
+    productData.value = { ...newVal }
+  }
+)
 
 const handleSubmit = () => {
-  emit("submit", produktData.value)
+  emit("submit", { ...productData.value })
 }
 </script>
 

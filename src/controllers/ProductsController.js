@@ -9,14 +9,15 @@ class ProductsController {
     this.model.addProduct(product)
   }
   deleteProduct(id) {
-    this.model.deleteProduct(id)
+    console.log(`Controller: Deleting product with id: ${id}`)
+    this.model.deleteProduct(id) // Slet produkt
   }
 
-  updateProducts(product) {
-    this.model.updateProducts(product)
+  updateProduct(product) {
+    this.model.updateProduct(product)
   }
 
-  getProducts() {
+  getAllProducts() {
     return this.model.getProducts()
   }
 }
