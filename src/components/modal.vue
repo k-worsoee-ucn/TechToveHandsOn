@@ -8,12 +8,12 @@
       <form @submit.prevent="submitForm">
         <div class="form-group">
           <label for="titel">Titel:</label>
-          <input v-model="produktData.titel" type="text" id="titel" required />
+          <input v-model="productData.titel" type="text" id="titel" required />
         </div>
         <div class="form-group">
           <label for="kategori">Kategori:</label>
           <input
-            v-model="produktData.kategori"
+            v-model="productData.kategori"
             type="text"
             id="kategori"
             required
@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
           <label for="pris">Pris:</label>
-          <input v-model="produktData.pris" type="number" id="pris" required />
+          <input v-model="productData.pris" type="number" id="pris" required />
         </div>
         <button type="submit">
           {{ mode === "add" ? "Tilføj produkt" : "Gem ændringer" }}
@@ -34,33 +34,31 @@
 <script setup>
 import { ref, watchEffect } from "vue"
 
-// Props til at styre modalens åbningstilstand, mode, og produktdata
 const props = defineProps({
   isOpen: Boolean,
   mode: String,
-  produkt: {
+  product: {
     type: Object,
-    default: () => ({ titel: "", kategori: "", pris: 0 }),
+    default: () => ({ titel: "", kategori: "", pris: 0, id: null }),
   },
 })
 
 const emit = defineEmits(["close", "submit"])
 
-// Lokal kopi af produktet til at håndtere data i modal/formular
-const produktData = ref({ ...props.produkt })
+const productData = ref({ ...props.product })
 
 // Synkronisering af produktData ved ændring i prop `produkt`
 watchEffect(() => {
-  produktData.value = { ...props.produkt }
+  productData.value = { ...props.product }
 })
 
 const close = () => {
   emit("close")
 }
-
-// Håndterer formularen og emitter de indtastede data
 const submitForm = () => {
-  emit("submit", produktData.value)
+  console.log("Submit event emitted:", productData.value)
+  console.log("Submit event emitted - Produkt ID:", productData.value.id)
+  emit("submit", productData.value)
   close()
 }
 </script>

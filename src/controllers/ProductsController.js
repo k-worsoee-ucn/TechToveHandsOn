@@ -4,20 +4,27 @@ class ProductsController {
   constructor() {
     this.model = ProductsModel
   }
-
-  addProduct(product) {
-    this.model.addProduct(product)
+  addProduct(newProduct) {
+    this.model.addProduct(newProduct)
   }
+
+  updateProduct(updatedProduct) {
+    const index = this.products.findIndex(
+      (product) => product.id === updatedProduct.id
+    )
+    if (index !== -1) {
+      console.log("Før update:", this.products[index])
+      this.products[index] = updatedProduct
+      console.log("Efter update:", this.products[index])
+    }
+  }
+
   deleteProduct(id) {
-    console.log(`Controller: Deleting product with id: ${id}`)
-    this.model.deleteProduct(id) // Slet produkt
+    console.log(`Controller: sletter produkt med id: ${id}`)
+    this.model.deleteProduct(id)
   }
 
-  updateProduct(product) {
-    this.model.updateProduct(product)
-  }
-
-  getAllProducts() {
+  getProducts() {
     return this.model.getProducts()
   }
 }

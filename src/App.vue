@@ -6,13 +6,25 @@ import { RouterLink, RouterView } from "vue-router"
   <div id="app">
     <header>
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+        <ul>
+          <RouterLink to="/"><li>Home</li></RouterLink>
+          <RouterLink to="/about"><li>About</li></RouterLink>
+          <RouterLink to="/login"><li>Login</li></RouterLink>
+          <RouterLink to="/produkter"><li>produkter</li></RouterLink>
+        </ul>
       </nav>
     </header>
     <RouterView />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+ul {
+  display: flex;
+  list-style-type: none;
+}
+li {
+  margin: 0 10px;
+  text-decoration: none;
+}
+</style>

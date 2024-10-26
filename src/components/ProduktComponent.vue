@@ -1,125 +1,138 @@
 <template>
   <button @click="openAddProductModal()">Tilføj produkt</button>
-  <div class="ProduktCard-container">
+  <div class="ProductCard-container">
     <div v-for="product in products" :key="product.titel">
-      <div class="product-image">
-        <img :src="product.img" alt="Film Poster" />
-      </div>
-      <div class="product-info">
-        <h2 class="product-title">{{ product.titel }}</h2>
+      <div class="product-card">
+        <div class="product-image">
+          <img :src="product.img" alt="Film Poster" />
+        </div>
+        <div class="product-info">
+          <h2 class="product-title">{{ product.titel }}</h2>
 
-        <p class="product-catagori">Katagori: {{ product.katagori }}</p>
-        <p class="product-price">Pris: {{ product.pris }} kr</p>
-        <!--<button @click="addToCart()">Tilføj til kurv</button>-->
-        <button @click="openEditProductModal(product)">Rediger produkt</button>
-        <button @click="deleteProduct(product.id)">Slet produkt</button>
+          <p class="product-catagori">Katagori: {{ product.katagori }}</p>
+          <p class="product-price">Pris: {{ product.pris }} kr</p>
+          <!--<button @click="addToCart()">Tilføj til kurv</button>-->
+          <button @click="openEditProductModal(product)">
+            Rediger produkt
+          </button>
+          <button @click="deleteProduct(product.id)">Slet produkt</button>
+        </div>
       </div>
     </div>
-    <!-- Modal til tilføjelse af produkt -->
-    <Modal :isOpen="isAddModalOpen" @close="closeAddProductModal">
+
+    <Modal
+      :isOpen="isAddModalOpen"
+      :mode="modalMode"
+      @close="closeAddProductModal"
+    >
       <h2>Tilføj Produkt</h2>
       <ProductForm @submit="addProduct" />
     </Modal>
 
-    <!-- Modal til redigering af produkt -->
-    <Modal :isOpen="isEditModalOpen" @close="closeEditProductModal">
+    <Modal
+      :isOpen="isEditModalOpen"
+      :mode="modalMode"
+      @close="closeEditProductModal"
+    >
       <h2>Rediger Produkt</h2>
-      <ProductForm :product="selectedProduct" @submit="updateProduct" />
+      <ProductForm v-model:product="selectedProduct" @submit="updateProduct" />
     </Modal>
   </div>
 </template>
 
 <script setup>
-  import { ref } from "vue"
-  import Modal from "@/components/modal.vue"
-  import ProductForm from "@/components/ProductForm.vue"
-  import ProductController from "@/controllers/ProductsController"
-  import { products as productsDatabase } from "@/models/ProductsDatabase"
+import { ref } from "vue"
+import Modal from "@/components/Modal.vue"
+import ProductForm from "@/components/ProductForm.vue"
+import ProductController from "@/controllers/ProductsController"
 
-  // State til produkter og modal-styring
-  const products = ref([...productsDatabase])
-  const isAddModalOpen = ref(false)
-  const isEditModalOpen = ref(false)
-  const selectedProduct = ref(null) //
+// State til produkter og modal-styring
+const products = ref(ProductController.getProducts())
+const isAddModalOpen = ref(false)
+const isEditModalOpen = ref(false)
+const selectedProduct = ref(null)
+const modalMode = ref("")
 
-  // Modal-åbning/lukning
-  const openAddProductModal = () => {
-    isAddModalOpen.value = true
-  }
-  const closeAddProductModal = () => {
-    isAddModalOpen.value = false
-  }
+// Modal-åbning/lukning
+const openAddProductModal = () => {
+  modalMode.value = "add"
+  console.log("Åbner modal for at tilføje produkt")
+  isAddModalOpen.value = true
+}
+const closeAddProductModal = () => {
+  isAddModalOpen.value = false
+}
 
-  const openEditProductModal = (product) => {
-    console.log("Opening edit modal for:", product); // Tjekker om produktet er korrekt
-    selectedProduct.value = { ...product };
-    isEditModalOpen.value = true;
-  };
-  const closeEditProductModal = () => {
-    isEditModalOpen.value = false
-  }
+const openEditProductModal = (product) => {
+  modalMode.value = "edit"
+  console.log("Opening edit modal for:", product)
+  selectedProduct.value = { ...product }
+  isEditModalOpen.value = true
+}
+const closeEditProductModal = () => {
+  isEditModalOpen.value = false
+}
 
+// CRUD-funktioner med controller
 
+const addProduct = (productData) => {
+  console.log("Tilføjer product:", productData)
+  ProductController.addProduct(productData)
+  products.value = [...ProductController.getProducts()]
+  closeAddProductModal()
+}
 
-  // CRUD-funktioner med controller
-  const addProduct = (newProduct) => {
-    ProductController.addProduct(newProduct)
-    products.value = [...ProductController.getAllProducts()]
-    console.log("Products after addition:", products.value)
-    closeAddProductModal()
-  }
+const updateProduct = (productData) => {
+  console.log("Updater product:", productData)
+  ProductController.updateProduct({
+    ...productData,
+    id: selectedProduct.value.id,
+  })
+  products.value = [...ProductController.getProducts()]
+  closeEditProductModal()
+}
 
-  const updateProduct = (updateProduct) => {
-    const index = this.products.findIndex((p) => p.id === updateProduct.id); // Brug updatedProduct.id
-    if (index !== -1) {
-      // Opdater produktet på det fundne indeks
-      this.products[index] = updateProduct; // Opdater direkte
-      console.log(`Product with id ${updateProduct.id} updated.`);
-    } else {
-      console.warn(`Product with id ${updateProduct.id} not found.`);
-    }
-  }
-
-  const deleteProduct = (id) => {
-    console.log("Deleting product with id:", id)
-    const numericId = Number(id)
-    console.log("Type of id:", typeof numericId)
-    console.log("Products before deletion:", products.value)
-
-    ProductController.deleteProduct(numericId)
-
-    products.value = ProductController.getAllProducts()
-    console.log("Products after deletion:", products.value)
-  }
+const deleteProduct = (productId) => {
+  ProductController.deleteProduct(productId)
+  console.log("Products før sletning:", products.value)
+  products.value = [...ProductController.getProducts()]
+  console.log("Products efter sletning:", products.value)
+}
 </script>
 
 <style scoped>
-  .ProduktCard-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
+.ProductCard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
 
-  .produkt-card {
-    width: 200px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-  }
+.product-card {
+  width: 250px;
 
-  button {
-    margin-top: 5px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid;
+}
 
-  button:hover {
-    background-color: #0056b3;
-  }
+.product-title {
+  height: 50px;
+}
+
+button {
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
 </style>
