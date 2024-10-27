@@ -10,8 +10,12 @@ class ProductsModel {
 
   addProduct(product) {
     product.id = this.products.length
-      ? Math.max(this.products.map((p) => p.id)) + 1
+      ? Math.max(...this.products.map((p) => p.id)) + 1
       : 1
+
+    if (product.img instanceof File) {
+      product.img = URL.createObjectURL(product.img) // Gem URL i stedet for `File`
+    }
     this.products.push(product)
     console.log("Tilføjet produkt:", product)
   }
@@ -33,8 +37,10 @@ class ProductsModel {
   updateProduct = (updateProduct) => {
     const index = this.products.findIndex((p) => p.id === updateProduct.id)
 
+    if (updateProduct.img instanceof File) {
+      updateProduct.img = URL.createObjectURL(updateProduct.img) // Gem URL i stedet for `File`
+    }
     this.products[index] = updateProduct
-    console.log(`Produkt med id: ${updateProduct.id} slettet.`)
   }
 
   getProducts() {

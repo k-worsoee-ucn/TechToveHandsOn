@@ -9,14 +9,8 @@ class ProductsController {
   }
 
   updateProduct(updatedProduct) {
-    const index = this.products.findIndex(
-      (product) => product.id === updatedProduct.id
-    )
-    if (index !== -1) {
-      console.log("Før update:", this.products[index])
-      this.products[index] = updatedProduct
-      console.log("Efter update:", this.products[index])
-    }
+    // Opdater produktet i modellen direkte
+    this.model.updateProduct(updatedProduct)
   }
 
   deleteProduct(id) {

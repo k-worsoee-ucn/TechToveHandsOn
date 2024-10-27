@@ -1,5 +1,7 @@
 <template>
-  <button @click="openAddProductModal()">Tilføj produkt</button>
+  <button @click="openAddProductModal()" id="addProductButton">
+    Tilføj produkt
+  </button>
   <div class="ProductCard-container">
     <div v-for="product in products" :key="product.titel">
       <div class="product-card">
@@ -20,22 +22,18 @@
       </div>
     </div>
 
-    <Modal
-      :isOpen="isAddModalOpen"
-      :mode="modalMode"
-      @close="closeAddProductModal"
-    >
-      <h2>Tilføj Produkt</h2>
-      <ProductForm @submit="addProduct" />
+    <Modal :isOpen="isAddModalOpen" @close="closeAddProductModal">
+      <h2>Tilføj nyt produkt</h2>
+      <ProductForm mode="add" @submit="addProduct" />
     </Modal>
 
-    <Modal
-      :isOpen="isEditModalOpen"
-      :mode="modalMode"
-      @close="closeEditProductModal"
-    >
-      <h2>Rediger Produkt</h2>
-      <ProductForm v-model:product="selectedProduct" @submit="updateProduct" />
+    <Modal :isOpen="isEditModalOpen" @close="closeEditProductModal">
+      <h2>Redigér produkt</h2>
+      <ProductForm
+        :product="selectedProduct"
+        mode="edit"
+        @submit="updateProduct"
+      />
     </Modal>
   </div>
 </template>
@@ -122,6 +120,10 @@ const deleteProduct = (productId) => {
   height: 50px;
 }
 
+.product-image img {
+  width: 200px;
+}
+
 button {
   margin: 5px;
   padding: 5px 10px;
@@ -134,5 +136,9 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+#addProductButton {
+  margin-left: 50px;
 }
 </style>
