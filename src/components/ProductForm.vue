@@ -56,7 +56,7 @@ const handleFileChange = (event) => {
   const file = event.target.files[0]
   if (file) {
     productData.value.img = file
-    imgPreview.value = URL.createObjectURL(file) // Opret URL til billed-preview
+    imgPreview.value = URL.createObjectURL(file)
   }
 }
 

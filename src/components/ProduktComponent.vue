@@ -1,7 +1,8 @@
 <template>
-  <button @click="openAddProductModal()" id="addProductButton">
+  <button @click="openAddProductModal()" class="addProductButton">
     Tilføj produkt
   </button>
+  <button @click="reset()" id="reset">Reset</button>
   <div class="ProductCard-container">
     <div v-for="product in products" :key="product.titel">
       <div class="product-card">
@@ -11,13 +12,23 @@
         <div class="product-info">
           <h2 class="product-title">{{ product.titel }}</h2>
 
-          <p class="product-catagori">Katagori: {{ product.katagori }}</p>
-          <p class="product-price">Pris: {{ product.pris }} kr</p>
-          <!--<button @click="addToCart()">Tilføj til kurv</button>-->
+          <p class="product-catagori">
+            <b>Katagori:</b> {{ product.katagori }}
+          </p>
+          <p class="product-price"><b>Pris:</b> {{ product.pris }} kr</p>
+          <button @click="addToCart()" class="addProductButton">
+            Tilføj til kurv
+          </button>
+
           <button @click="openEditProductModal(product)">
             Rediger produkt
           </button>
-          <button @click="deleteProduct(product.id)">Slet produkt</button>
+          <button
+            @click="deleteProduct(product.id)"
+            class="deleteProductButton"
+          >
+            Slet produkt
+          </button>
         </div>
       </div>
     </div>
@@ -43,6 +54,7 @@ import { ref } from "vue"
 import Modal from "@/components/Modal.vue"
 import ProductForm from "@/components/ProductForm.vue"
 import ProductController from "@/controllers/ProductsController"
+import { products as initialProducts } from "@/models/ProductsDatabase"
 
 // State til produkter og modal-styring
 const products = ref(ProductController.getProducts())
@@ -96,6 +108,17 @@ const deleteProduct = (productId) => {
   products.value = [...ProductController.getProducts()]
   console.log("Products efter sletning:", products.value)
 }
+
+const reset = () => {
+  localStorage.clear()
+
+  // Genindsæt de oprindelige produkter fra ProductsDatabase i både localStorage og i state
+  const resetProducts = initialProducts.map((product) => ({ ...product })) // Sikrer en kopi af objekterne
+  localStorage.setItem("products", JSON.stringify(resetProducts))
+
+  // Opdater komponentens state til at vise de oprindelige produkter
+  products.value = [...resetProducts]
+}
 </script>
 
 <style scoped>
@@ -107,13 +130,17 @@ const deleteProduct = (productId) => {
 }
 
 .product-card {
-  width: 250px;
-
+  width: 340px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
-  border: 2px solid;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }
 
 .product-title {
@@ -138,7 +165,29 @@ button:hover {
   background-color: #0056b3;
 }
 
-#addProductButton {
-  margin-left: 50px;
+.addProductButton {
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #0ab827;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.addProductButton:hover {
+  background-color: #0c8f21;
+}
+
+.deleteProductButton {
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #f31b1b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.deleteProductButton:hover {
+  background-color: #bd1b1b;
 }
 </style>

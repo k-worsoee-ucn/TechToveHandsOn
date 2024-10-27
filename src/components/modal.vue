@@ -4,7 +4,6 @@
     <div class="modal-content">
       <button class="close-button" @click="close">X</button>
       <slot></slot>
-      <!-- Brug <slot> til dynamisk indhold som ProductForm -->
     </div>
   </div>
 </template>
@@ -53,10 +52,6 @@ const close = () => {
   position: absolute;
   top: 10px;
   right: 10px;
-}
-
-.form-group {
-  margin-bottom: 10px;
 }
 
 button {

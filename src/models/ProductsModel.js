@@ -2,7 +2,14 @@ import { products } from "./ProductsDatabase"
 class ProductsModel {
   constructor() {
     if (!ProductsModel.instance) {
-      this.products = products
+      const storedProducts = localStorage.getItem("products")
+      this.products = storedProducts ? JSON.parse(storedProducts) : products
+
+      // Hvis der ikke er produkter i `localStorage`, gem dem der
+      if (!storedProducts) {
+        localStorage.setItem("products", JSON.stringify(this.products))
+      }
+      //this.products = products
       ProductsModel.instance = this
     }
     return ProductsModel.instance
@@ -17,30 +24,32 @@ class ProductsModel {
       product.img = URL.createObjectURL(product.img) // Gem URL i stedet for `File`
     }
     this.products.push(product)
+
     console.log("Tilføjet produkt:", product)
   }
 
   deleteProduct(id) {
-    console.log(`Slettet produkt med id: ${id} (Type: ${typeof id})`)
-    console.log("Nuværende produkter:", this.products)
+    console.log(`Sletter produkt med id: ${id}`)
 
+    // Find produktets index og slet
     const index = this.products.findIndex((p) => p.id === id)
 
-    // Bruger splice til at fjerne elementet og oprette en ny version af arrayet
     this.products = [
       ...this.products.slice(0, index),
       ...this.products.slice(index + 1),
     ]
-    console.log(`produkt med id ${id} slettet.`)
-    return this.products
+
+    // Opdater localStorage efter sletningen
+    localStorage.setItem("products", JSON.stringify(this.products))
   }
   updateProduct = (updateProduct) => {
     const index = this.products.findIndex((p) => p.id === updateProduct.id)
 
     if (updateProduct.img instanceof File) {
-      updateProduct.img = URL.createObjectURL(updateProduct.img) // Gem URL i stedet for `File`
+      updateProduct.img = URL.createObjectURL(updateProduct.img)
     }
     this.products[index] = updateProduct
+    localStorage.setItem("products", JSON.stringify(this.products))
   }
 
   getProducts() {

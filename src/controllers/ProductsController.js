@@ -9,12 +9,10 @@ class ProductsController {
   }
 
   updateProduct(updatedProduct) {
-    // Opdater produktet i modellen direkte
     this.model.updateProduct(updatedProduct)
   }
 
   deleteProduct(id) {
-    console.log(`Controller: sletter produkt med id: ${id}`)
     this.model.deleteProduct(id)
   }
 
