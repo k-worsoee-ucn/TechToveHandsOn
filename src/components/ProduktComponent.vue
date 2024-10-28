@@ -1,8 +1,13 @@
 <template>
+  <!-- Knap til at åbne modal for tilføjelse af produkt -->
   <button @click="openAddProductModal()" class="addProductButton">
     Tilføj produkt
   </button>
+
+  <!-- Knap til at nulstille produkterne til standard -->
   <button @click="reset()" id="reset">Reset</button>
+
+  <!-- Container til at vise produktkort -->
   <div class="ProductCard-container">
     <div v-for="product in products" :key="product.titel">
       <div class="product-card">
@@ -16,13 +21,18 @@
             <b>Katagori:</b> {{ product.katagori }}
           </p>
           <p class="product-price"><b>Pris:</b> {{ product.pris }} kr</p>
+
+          <!-- Knap til at tilføje produkt til kurv -->
           <button @click="addToCart()" class="addProductButton">
             Tilføj til kurv
           </button>
 
+          <!-- Knap til at åbne modal for redigering af produkt -->
           <button @click="openEditProductModal(product)">
             Rediger produkt
           </button>
+
+          <!-- Knap til at slette produkt -->
           <button
             @click="deleteProduct(product.id)"
             class="deleteProductButton"
@@ -33,11 +43,13 @@
       </div>
     </div>
 
+    <!-- Modal til at tilføje nyt produkt -->
     <Modal :isOpen="isAddModalOpen" @close="closeAddProductModal">
       <h2>Tilføj nyt produkt</h2>
       <ProductForm mode="add" @submit="addProduct" />
     </Modal>
 
+    <!-- Modal til at redigere eksisterende produkt -->
     <Modal :isOpen="isEditModalOpen" @close="closeEditProductModal">
       <h2>Redigér produkt</h2>
       <ProductForm
@@ -57,67 +69,64 @@ import ProductController from "@/controllers/ProductsController"
 import { products as initialProducts } from "@/models/ProductsDatabase"
 
 // State til produkter og modal-styring
-const products = ref(ProductController.getProducts())
-const isAddModalOpen = ref(false)
-const isEditModalOpen = ref(false)
-const selectedProduct = ref(null)
-const modalMode = ref("")
+const products = ref(ProductController.getProducts()) // Henter produkter fra controller
+const isAddModalOpen = ref(false) // Tilstand for tilføjelsesmodal
+const isEditModalOpen = ref(false) // Tilstand for redigeringsmodal
+const selectedProduct = ref(null) // Gemmer det valgte produkt til redigering
+const modalMode = ref("") //Tilstand for modalMode
 
-// Modal-åbning/lukning
+// Åbner modal til at tilføje produkt
 const openAddProductModal = () => {
   modalMode.value = "add"
-  console.log("Åbner modal for at tilføje produkt")
   isAddModalOpen.value = true
 }
+
+// Lukker modal til at tilføje produkt
 const closeAddProductModal = () => {
   isAddModalOpen.value = false
 }
 
+// Åbner modal til redigering af et produkt
 const openEditProductModal = (product) => {
   modalMode.value = "edit"
-  console.log("Opening edit modal for:", product)
   selectedProduct.value = { ...product }
   isEditModalOpen.value = true
 }
+
+// Lukker modal til redigering af produkt
 const closeEditProductModal = () => {
   isEditModalOpen.value = false
 }
 
 // CRUD-funktioner med controller
 
+// Tilføjer produkt og opdaterer produktlisten
 const addProduct = (productData) => {
-  console.log("Tilføjer product:", productData)
   ProductController.addProduct(productData)
   products.value = [...ProductController.getProducts()]
   closeAddProductModal()
 }
 
+// Opdaterer produkt og opdaterer produktlisten
 const updateProduct = (productData) => {
-  console.log("Updater product:", productData)
   ProductController.updateProduct({
     ...productData,
     id: selectedProduct.value.id,
-  })
+  }) // Opdater produkt via controller
   products.value = [...ProductController.getProducts()]
   closeEditProductModal()
 }
 
+// Sletter produkt og opdaterer produktlisten
 const deleteProduct = (productId) => {
   ProductController.deleteProduct(productId)
-  console.log("Products før sletning:", products.value)
   products.value = [...ProductController.getProducts()]
-  console.log("Products efter sletning:", products.value)
 }
 
+// Nulstiller produkterne til standard
 const reset = () => {
-  localStorage.clear()
-
-  // Genindsæt de oprindelige produkter fra ProductsDatabase i både localStorage og i state
-  const resetProducts = initialProducts.map((product) => ({ ...product })) // Sikrer en kopi af objekterne
-  localStorage.setItem("products", JSON.stringify(resetProducts))
-
-  // Opdater komponentens state til at vise de oprindelige produkter
-  products.value = [...resetProducts]
+  ProductController.resetToDefault()
+  products.value = [...ProductController.getProducts()]
 }
 </script>
 

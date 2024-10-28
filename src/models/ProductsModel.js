@@ -1,47 +1,47 @@
-import { products } from "./ProductsDatabase"
+import { products as defaultProducts } from "./ProductsDatabase"
+
 class ProductsModel {
   constructor() {
+    // Singleton-mønster for at sikre én instans af ProductsModel
     if (!ProductsModel.instance) {
       const storedProducts = localStorage.getItem("products")
-      this.products = storedProducts ? JSON.parse(storedProducts) : products
+      this.products = storedProducts
+        ? JSON.parse(storedProducts)
+        : defaultProducts
 
-      // Hvis der ikke er produkter i `localStorage`, gem dem der
-      if (!storedProducts) {
-        localStorage.setItem("products", JSON.stringify(this.products))
-      }
-      //this.products = products
       ProductsModel.instance = this
     }
     return ProductsModel.instance
   }
+  // Gemmer produkter til localStorage
+  saveToLocalStorage() {
+    localStorage.setItem("products", JSON.stringify(this.products))
+  }
 
+  // Tilføjer et nyt produkt
   addProduct(product) {
     product.id = this.products.length
       ? Math.max(...this.products.map((p) => p.id)) + 1
       : 1
-
+    // Omdanner billedfil til URL for preview
     if (product.img instanceof File) {
-      product.img = URL.createObjectURL(product.img) // Gem URL i stedet for `File`
+      product.img = URL.createObjectURL(product.img)
     }
     this.products.push(product)
-
+    this.saveToLocalStorage()
     console.log("Tilføjet produkt:", product)
   }
-
+  //Slet et produkt
   deleteProduct(id) {
     console.log(`Sletter produkt med id: ${id}`)
 
-    // Find produktets index og slet
     const index = this.products.findIndex((p) => p.id === id)
-
-    this.products = [
-      ...this.products.slice(0, index),
-      ...this.products.slice(index + 1),
-    ]
-
-    // Opdater localStorage efter sletningen
-    localStorage.setItem("products", JSON.stringify(this.products))
+    if (index !== -1) {
+      this.products.splice(index, 1)
+      this.saveToLocalStorage()
+    }
   }
+  //Opdater eksisterende produkt
   updateProduct = (updateProduct) => {
     const index = this.products.findIndex((p) => p.id === updateProduct.id)
 
@@ -49,11 +49,17 @@ class ProductsModel {
       updateProduct.img = URL.createObjectURL(updateProduct.img)
     }
     this.products[index] = updateProduct
-    localStorage.setItem("products", JSON.stringify(this.products))
+    this.saveToLocalStorage()
   }
-
+  // Returnerer en kopi af produktlisten
   getProducts() {
     return [...this.products]
+  }
+  // Nulstiller produkterne til standard
+  resetToDefault() {
+    localStorage.removeItem("products") // Fjern de gemte produkter fra localstorage
+    this.products = [...defaultProducts] // Gendan standardprodukterne
+    this.saveToLocalStorage() // Gem standardprodukterne i localStorage
   }
 }
 

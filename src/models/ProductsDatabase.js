@@ -1,3 +1,4 @@
+//Produkt-objekt-array der fungerer som database over produkter i webshoppen
 export let products = [
   {
     id: 1,

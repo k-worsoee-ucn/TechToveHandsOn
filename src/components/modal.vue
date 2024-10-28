@@ -3,6 +3,7 @@
     <div class="modal-overlay" @click="close"></div>
     <div class="modal-content">
       <button class="close-button" @click="close">X</button>
+      <!-- Indholdet til modal vil blive indsat her via slot -->
       <slot></slot>
     </div>
   </div>
@@ -10,9 +11,12 @@
 
 <script setup>
 const props = defineProps({
-  isOpen: Boolean,
+  isOpen: Boolean, // Modtager prop til at bestemme om modal skal vises
 })
+
 const emit = defineEmits(["close"])
+
+// Funktion til at lukke modal
 const close = () => {
   emit("close")
 }

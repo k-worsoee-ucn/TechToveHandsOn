@@ -31,6 +31,7 @@
 <script setup>
 import { ref, watch } from "vue"
 
+// Definerer de modtagne props: product og mode
 const props = defineProps({
   product: {
     type: Object,
@@ -39,12 +40,16 @@ const props = defineProps({
   mode: String,
 })
 
+// Definerer emit-funktioner til at sende data til forælderen
 const emit = defineEmits(["submit"])
 
+// Tilstand for produktdata, som opdateres ved ændring af props
 const productData = ref({ ...props.product })
 
+// Tilstand til billede-preview
 const imgPreview = ref(null)
 
+// Overvåger ændringer i props.product for at opdatere productData
 watch(
   () => props.product,
   (newVal) => {
@@ -52,16 +57,18 @@ watch(
   }
 )
 
+// Håndterer filændringer fra input
 const handleFileChange = (event) => {
-  const file = event.target.files[0]
+  const file = event.target.files[0] // Henter den valgte fil
   if (file) {
-    productData.value.img = file
-    imgPreview.value = URL.createObjectURL(file)
+    productData.value.img = file // Gemmer filreferencen i productData
+    imgPreview.value = URL.createObjectURL(file) // Genererer URL til billede preview
   }
 }
 
+// Håndterer formularindsendelse
 const handleSubmit = () => {
-  emit("submit", { ...productData.value })
+  emit("submit", { ...productData.value }) // Sender produktdata til forælderen
 }
 </script>
 
