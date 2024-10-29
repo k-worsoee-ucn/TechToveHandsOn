@@ -1,10 +1,18 @@
 <template>
+  <!-- Knap til at åbne modal for tilføjelse af produkt -->
+  <button @click="openAddProductModal()" class="addProductButton">
+    Tilføj produkt
+  </button>
+
+  <!-- Knap til at nulstille produkterne til standard -->
+  <button @click="reset()" id="resetButton">Reset</button>
+
   <!-- Container til at vise produktkort -->
   <div class="ProductCard-container">
     <div v-for="product in products" :key="product.titel">
       <div class="product-card">
         <div class="product-image">
-          <img :src="product.img" alt="Film Poster" />
+          <img :src="product.img" :alt="product.titel" />
         </div>
         <div class="product-info">
           <h2 class="product-title">{{ product.titel }}</h2>
@@ -15,13 +23,12 @@
           <p class="product-price"><b>Pris:</b> {{ product.pris }} kr</p>
 
           <!-- Knap til at tilføje produkt til kurv -->
-          <button @click="addToCart(product.id)" class="addProductButton" :productid="product.id">
+          <button @click="addToCart()" class="addProductButton">
             Tilføj til kurv
           </button>
 
-
           <!-- Knap til at åbne modal for redigering af produkt -->
-          <button @click="openEditProductModal(product)">
+          <button @click="openEditProductModal(product)" class="editProductButton">
             Rediger produkt
           </button>
 
@@ -48,17 +55,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
-import Modal from "@/components/modal.vue"
-import ProductForm from "@/components/ProductForm.vue"
-import ProductController from "@/controllers/ProductsController"
-import { products as initialProducts } from "@/models/ProductsDatabase"
+  import { ref } from "vue"
+  import Modal from "@/components/modal.vue"
+  import ProductForm from "@/components/ProductForm.vue"
+  import ProductController from "@/controllers/ProductsController"
+  import { products as initialProducts } from "@/models/ProductsDatabase"
 
-const filtrerProdukter = computed(() => {
-  return produkter.map((produkt) => ({
-    ...produkt,
-  }))
-})
+  // State til produkter og modal-styring
+  const products = ref(ProductController.getProducts()) // Henter produkter fra controller
+  const isAddModalOpen = ref(false) // Tilstand for tilføjelsesmodal
+  const isEditModalOpen = ref(false) // Tilstand for redigeringsmodal
+  const selectedProduct = ref(null) // Gemmer det valgte produkt til redigering
+  const modalMode = ref("") //Tilstand for modalMode
 
 // Initialize the cart as a reactive reference
 const cart = ref([]);
