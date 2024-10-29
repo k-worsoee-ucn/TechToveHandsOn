@@ -1,0 +1,64 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 2rem;
+    padding-inline: 10vw;
+
+    nav{
+        
+        ul{
+            display: flex;
+            // flex-wrap: wrap;
+            justify-content: center;
+            column-gap: 2rem;
+            list-style: none;
+
+            padding-block: .5rem;
+
+            a{
+                padding: .5rem;
+                text-decoration: none;
+
+                &:hover{
+                    animation: spin .5s linear infinite;
+
+                    @keyframes spin {
+                        from{
+                            transform: rotate(0deg);
+                            
+                        }
+                        to{
+                            transform: rotate(360deg);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #loginBox{
+        display: flex;
+        align-items: center;
+        column-gap: 2rem;
+        padding-left: 2rem;
+        margin-block: 1rem;
+        border-left: 1px solid rgb(208, 208, 208);
+
+        div{
+            max-width: 5vw;
+
+            img{
+                object-fit: contain;
+                width: 100%;
+                border-radius: 100%;
+            }
+        }
+
+    }
+}
