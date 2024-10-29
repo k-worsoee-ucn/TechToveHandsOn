@@ -8,10 +8,18 @@ import cartComponent from '../src/components/cartComponent.vue'
     <header>
       <nav>
         <ul>
-          <RouterLink to="/"><li>Home</li></RouterLink>
-          <RouterLink to="/about"><li>About</li></RouterLink>
-          <RouterLink to="/login"><li>Login</li></RouterLink>
-          <RouterLink to="/produkter"><li>produkter</li></RouterLink>
+          <RouterLink to="/">
+            <li>Home</li>
+          </RouterLink>
+          <RouterLink to="/about">
+            <li>About</li>
+          </RouterLink>
+          <RouterLink to="/login">
+            <li>Login</li>
+          </RouterLink>
+          <RouterLink to="/produkter">
+            <li>produkter</li>
+          </RouterLink>
         </ul>
       </nav>
     </header>
@@ -20,13 +28,14 @@ import cartComponent from '../src/components/cartComponent.vue'
   <cartComponent></cartComponent>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 ul {
   display: flex;
   list-style-type: none;
-}
-li {
-  margin: 0 10px;
-  text-decoration: none;
+
+  li {
+    margin: 0 10px;
+    text-decoration: none;
+  }
 }
 </style>

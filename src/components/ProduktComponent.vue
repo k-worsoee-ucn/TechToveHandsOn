@@ -23,7 +23,7 @@
           <p class="product-price"><b>Pris:</b> {{ product.pris }} kr</p>
 
           <!-- Knap til at tilføje produkt til kurv -->
-          <button @click="addToCart(product.id)" class="addProductButton" :productid="product.id">
+          <button @click="addToCart(product)" class="addProductButton" :productid="product.id">
             Tilføj til kurv
           </button>
 
@@ -59,29 +59,13 @@
 import { ref } from "vue";
 import Modal from "@/components/modal.vue";
 import ProductForm from "@/components/ProductForm.vue";
-import products from "../models/ProductsDatabase"
+import products from "../models/ProductsDatabase";
+
+//Cart composable
+import useCart from "@/services/useCart";
+const { addToCart } = useCart();
 
 //const cart = localStorage.getItem("cartComponent")
-
-const addToCart = (productId) => {
-  console.log("Product ID:", productId);
-
-  // Check if product already exists in the cart
-  if (!cart.value.includes(productId)) {
-    console.log("Product not in cart yet");
-    cart.value.push(productId);
-
-    // Save to local storage as a JSON string
-    try {
-      console.log("Saving Cart to localStorage:", cart.value);
-      localStorage.setItem("cartContents", JSON.stringify(cart.value));
-    } catch (e) {
-      console.error("Error saving cart contents to localStorage:", e);
-    }
-  } else {
-    console.log("Product already in cart");
-  }
-};
 
 // Eksempel på initiale produkter
 const initialProducts = products
