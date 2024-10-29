@@ -47,4 +47,9 @@ button {
     padding: 10px 20px;
     border-radius: 6px;
     margin-bottom: 40px;
+
+    &:hover{
+        cursor: pointer;
+        background-color: #812c37;
+    }
 }
