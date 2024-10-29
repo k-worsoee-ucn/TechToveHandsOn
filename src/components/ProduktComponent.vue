@@ -5,7 +5,7 @@
   </button>
 
   <!-- Knap til at nulstille produkterne til standard -->
-  <button @click="reset()" id="reset">Reset</button>
+  <button @click="reset()" id="resetButton">Reset</button>
 
   <!-- Container til at vise produktkort -->
   <div class="ProductCard-container">
@@ -28,15 +28,12 @@
           </button>
 
           <!-- Knap til at åbne modal for redigering af produkt -->
-          <button @click="openEditProductModal(product)">
+          <button @click="openEditProductModal(product)" class="editProductButton">
             Rediger produkt
           </button>
 
           <!-- Knap til at slette produkt -->
-          <button
-            @click="deleteProduct(product.id)"
-            class="deleteProductButton"
-          >
+          <button @click="deleteProduct(product.id)" class="deleteProductButton">
             Slet produkt
           </button>
         </div>
@@ -52,151 +49,80 @@
     <!-- Modal til at redigere eksisterende produkt -->
     <Modal :isOpen="isEditModalOpen" @close="closeEditProductModal">
       <h2>Redigér produkt</h2>
-      <ProductForm
-        :product="selectedProduct"
-        mode="edit"
-        @submit="updateProduct"
-      />
+      <ProductForm :product="selectedProduct" mode="edit" @submit="updateProduct" />
     </Modal>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
-import Modal from "@/components/Modal.vue"
-import ProductForm from "@/components/ProductForm.vue"
-import ProductController from "@/controllers/ProductsController"
-import { products as initialProducts } from "@/models/ProductsDatabase"
+  import { ref } from "vue"
+  import Modal from "@/components/Modal.vue"
+  import ProductForm from "@/components/ProductForm.vue"
+  import ProductController from "@/controllers/ProductsController"
+  import { products as initialProducts } from "@/models/ProductsDatabase"
 
-// State til produkter og modal-styring
-const products = ref(ProductController.getProducts()) // Henter produkter fra controller
-const isAddModalOpen = ref(false) // Tilstand for tilføjelsesmodal
-const isEditModalOpen = ref(false) // Tilstand for redigeringsmodal
-const selectedProduct = ref(null) // Gemmer det valgte produkt til redigering
-const modalMode = ref("") //Tilstand for modalMode
+  // State til produkter og modal-styring
+  const products = ref(ProductController.getProducts()) // Henter produkter fra controller
+  const isAddModalOpen = ref(false) // Tilstand for tilføjelsesmodal
+  const isEditModalOpen = ref(false) // Tilstand for redigeringsmodal
+  const selectedProduct = ref(null) // Gemmer det valgte produkt til redigering
+  const modalMode = ref("") //Tilstand for modalMode
 
-// Åbner modal til at tilføje produkt
-const openAddProductModal = () => {
-  modalMode.value = "add"
-  isAddModalOpen.value = true
-}
+  // Åbner modal til at tilføje produkt
+  const openAddProductModal = () => {
+    modalMode.value = "add"
+    isAddModalOpen.value = true
+  }
 
-// Lukker modal til at tilføje produkt
-const closeAddProductModal = () => {
-  isAddModalOpen.value = false
-}
+  // Lukker modal til at tilføje produkt
+  const closeAddProductModal = () => {
+    isAddModalOpen.value = false
+  }
 
-// Åbner modal til redigering af et produkt
-const openEditProductModal = (product) => {
-  modalMode.value = "edit"
-  selectedProduct.value = { ...product }
-  isEditModalOpen.value = true
-}
+  // Åbner modal til redigering af et produkt
+  const openEditProductModal = (product) => {
+    modalMode.value = "edit"
+    selectedProduct.value = { ...product }
+    isEditModalOpen.value = true
+  }
 
-// Lukker modal til redigering af produkt
-const closeEditProductModal = () => {
-  isEditModalOpen.value = false
-}
+  // Lukker modal til redigering af produkt
+  const closeEditProductModal = () => {
+    isEditModalOpen.value = false
+  }
 
-// CRUD-funktioner med controller
+  // CRUD-funktioner med controller
 
-// Tilføjer produkt og opdaterer produktlisten
-const addProduct = (productData) => {
-  ProductController.addProduct(productData)
-  products.value = [...ProductController.getProducts()]
-  closeAddProductModal()
-}
+  // Tilføjer produkt og opdaterer produktlisten
+  const addProduct = (productData) => {
+    ProductController.addProduct(productData)
+    products.value = [...ProductController.getProducts()]
+    closeAddProductModal()
+  }
 
-// Opdaterer produkt og opdaterer produktlisten
-const updateProduct = (productData) => {
-  ProductController.updateProduct({
-    ...productData,
-    id: selectedProduct.value.id,
-  }) // Opdater produkt via controller
-  products.value = [...ProductController.getProducts()]
-  closeEditProductModal()
-}
+  // Opdaterer produkt og opdaterer produktlisten
+  const updateProduct = (productData) => {
+    ProductController.updateProduct({
+      ...productData,
+      id: selectedProduct.value.id,
+    }) // Opdater produkt via controller
+    products.value = [...ProductController.getProducts()]
+    closeEditProductModal()
+  }
 
-// Sletter produkt og opdaterer produktlisten
-const deleteProduct = (productId) => {
-  ProductController.deleteProduct(productId)
-  products.value = [...ProductController.getProducts()]
-}
+  // Sletter produkt og opdaterer produktlisten
+  const deleteProduct = (productId) => {
+    ProductController.deleteProduct(productId)
+    products.value = [...ProductController.getProducts()]
+  }
 
-// Nulstiller produkterne til standard
-const reset = () => {
-  ProductController.resetToDefault()
-  products.value = [...ProductController.getProducts()]
-}
+  // Nulstiller produkterne til standard
+  const reset = () => {
+    ProductController.resetToDefault()
+    products.value = [...ProductController.getProducts()]
+  }
 </script>
 
 <style scoped>
-.ProductCard-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
 
-.product-card {
-  width: 340px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.product-card:hover {
-  transform: scale(1.05);
-}
-
-.product-title {
-  height: 50px;
-}
-
-.product-image img {
-  width: 200px;
-}
-
-button {
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.addProductButton {
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #0ab827;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.addProductButton:hover {
-  background-color: #0c8f21;
-}
-
-.deleteProductButton {
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #f31b1b;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.deleteProductButton:hover {
-  background-color: #bd1b1b;
-}
 </style>
