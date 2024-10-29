@@ -24,19 +24,20 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { auth } from './Services/firebaseConfiq';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const userEmail = ref(null);
 
-  // Set up the listener for authentication state changes
+  // Lytter efter ændringer i authentication staten for brugeren
+  // Ændres denne state, gør følgende; ...
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in
+      // Tjekker om user objektet ikke er tomt / logget ind
       userEmail.value = user.email;
     } else {
-      // User is signed out
+      // Brugeren er logget ud
       userEmail.value = null;
     }
   });
