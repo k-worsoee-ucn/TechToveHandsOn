@@ -19,12 +19,5 @@ import { RouterLink, RouterView } from "vue-router"
 </template>
 
 <style scoped>
-ul {
-  display: flex;
-  list-style-type: none;
-}
-li {
-  margin: 0 10px;
-  text-decoration: none;
-}
+
 </style>
