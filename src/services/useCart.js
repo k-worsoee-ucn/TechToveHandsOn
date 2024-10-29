@@ -9,21 +9,22 @@ const cart = ref(JSON.parse(localStorage.getItem('cart')) || []);
 
 const useCart = () => {
 
-    const addToCart = (productId) => {
-        console.log("Product ID:", productId);
+    const addToCart = (product) => {
+        console.log("Product:", product);
 
         // Check if product already exists in the cart
-        if (!cart.value.includes(productId)) {
+        if (!cart.value.includes(product)) {
             console.log("Product not in cart yet");
-            cart.value.push(productId);
+            cart.value.push(product);
             // Save to local storage as a JSON string
-            try {
-                console.log("Saving Cart to localStorage:", cart.value);
-                localStorage.setItem("cartContents", JSON.stringify(cart.value));
-            } catch (e) {
-                console.error("Error saving cart contents to localStorage:", e);
-            }
-        } else {
+            // try {
+            //     console.log("Saving Cart to localStorage:", cart.value);
+            //     localStorage.setItem("cartContents", JSON.stringify(cart.value));
+            // } catch (e) {
+            //     console.error("Error saving cart contents to localStorage:", e);
+            // }
+        } 
+        else {
             console.log("Product already in cart");
         }
     }
