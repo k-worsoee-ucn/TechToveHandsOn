@@ -16,7 +16,6 @@
         </div>
         <div class="product-info">
           <h2 class="product-title">{{ product.titel }}</h2>
-
           <p class="product-katagori">
             <b>Katagori:</b> {{ product.katagori }}
           </p>
@@ -55,18 +54,28 @@
 </template>
 
 <script setup>
-  import { ref } from "vue";
+  import { ref, onMounted } from "vue";
   import Modal from "@/components/Modal.vue";
   import ProductForm from "@/components/ProductForm.vue";
-  import products from "../models/ProductsDatabase"
+  import products from "../models/ProductsDatabase";
 
-  // Eksempel på initiale produkter
-  const initialProducts = products
+  const initialProducts = products;
 
-  const productList = ref([...initialProducts]); // Lokalt produktstate
+  const productList = ref([]); // Lokalt produktstate
   const isAddModalOpen = ref(false); // Tilstand for tilføjelsesmodal
   const isEditModalOpen = ref(false); // Tilstand for redigeringsmodal
   const selectedProduct = ref(null); // Gemmer det valgte produkt til redigering
+
+  // Load products from local storage when component is mounted
+  onMounted(() => {
+    const storedProducts = localStorage.getItem("products");
+    productList.value = storedProducts ? JSON.parse(storedProducts) : [...initialProducts];
+  });
+
+  // Save products to local storage
+  const saveProductsToLocalStorage = () => {
+    localStorage.setItem("products", JSON.stringify(productList.value));
+  };
 
   // Åbner modal til at tilføje produkt
   const openAddProductModal = () => {
@@ -96,7 +105,11 @@
       id: productList.value.length + 1, // Simple ID-generering
       ...productData,
     };
+    if (productData.img instanceof File) {
+      newProduct.img = URL.createObjectURL(productData.img); // Create URL for the image
+    }
     productList.value.push(newProduct);
+    saveProductsToLocalStorage(); // Save to local storage
     closeAddProductModal();
   };
 
@@ -105,6 +118,7 @@
     const index = productList.value.findIndex((p) => p.id === selectedProduct.value.id);
     if (index !== -1) {
       productList.value[index] = { ...productData, id: selectedProduct.value.id };
+      saveProductsToLocalStorage(); // Save to local storage
     }
     closeEditProductModal();
   };
@@ -112,14 +126,12 @@
   // Sletter produkt fra listen
   const deleteProduct = (productId) => {
     productList.value = productList.value.filter((product) => product.id !== productId);
+    saveProductsToLocalStorage(); // Save to local storage
   };
 
   // Nulstiller produkterne til standard
   const reset = () => {
     productList.value = [...initialProducts]; // Sætter produkterne tilbage til initiale produkter
+    saveProductsToLocalStorage(); // Save to local storage
   };
 </script>
-
-<style scoped>
-
-</style>
