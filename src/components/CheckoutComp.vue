@@ -5,15 +5,23 @@
     const isExpress = ref(false);
     const orderType = ref("standard");
     const firstName = ref("");
+    const lastName = ref("");
+    const adress = ref("");
+    const phone = ref("");
+    const email = ref("");
+
 
     const orderDetails = computed(() => ({
         firstName: firstName.value,
+        lastName: lastName.value,
+        adress: adress.value,
+        phone: phone.value,
+        email: email.value,
     }));
 
     const {createOrder} = useOrderProcessing();
 
     function handleOrder() {
-        console.log(firstName.value)
         createOrder(orderType.value, orderDetails.value);
     } 
 
@@ -39,19 +47,19 @@
             </div>
             <div class="formField">
                 <label for="lastName">Last name:</label>
-                <input type="text" id="lastName" name="lastName">
+                <input type="text" id="lastName" name="lastName" v-model="lastName">
             </div>
             <div class="formField">
-                <label for="Adress">Adress:</label>
-                <input type="text" id="Adress" name="Adress">  
+                <label for="adress">Adress:</label>
+                <input type="text" id="adress" name="adress" v-model="adress">  
             </div>
            <div class="formField">
-                <label for="Phone">Phone number:</label>
-                <input type="tel" id="Phone" name="Phone">
+                <label for="phone">Phone number:</label>
+                <input type="tel" id="phone" name="phone" v-model="phone">
            </div>
            <div class="formField">
-            <label for="Email">Email:</label>
-            <input type="Email" id="Email" name="Email">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" v-model="email">
            </div>
            <button type="submit">KØB FOR SATAN!</button>
         </form>
@@ -62,16 +70,5 @@
 
 <style lang="scss">
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-
-    .formField {
-        display: flex;
-        flex-direction: column;
-    }
-}
 
 </style>
