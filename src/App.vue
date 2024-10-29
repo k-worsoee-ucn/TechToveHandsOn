@@ -13,6 +13,12 @@ import { RouterLink, RouterView } from "vue-router"
           <RouterLink to="/produkter"><li>produkter</li></RouterLink>
         </ul>
       </nav>
+      <div id="loginBox">
+        <p>Log ind din taber!</p>
+        <div>
+          <img src="./assets/img/jonathan-cosens-photography-IgOVPMd862s-unsplash.jpg" alt="Tech Tove">
+        </div>
+      </div>
     </header>
     <RouterView />
   </div>
