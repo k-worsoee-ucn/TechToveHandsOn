@@ -6,7 +6,7 @@
     const orderType = ref("standard");
     const firstName = ref("");
     const lastName = ref("");
-    const adress = ref("");
+    const address = ref("");
     const phone = ref("");
     const email = ref("");
 
@@ -14,7 +14,7 @@
     const orderDetails = computed(() => ({
         firstName: firstName.value,
         lastName: lastName.value,
-        adress: adress.value,
+        address: address.value,
         phone: phone.value,
         email: email.value,
     }));
@@ -50,8 +50,8 @@
                 <input type="text" id="lastName" name="lastName" v-model="lastName">
             </div>
             <div class="formField">
-                <label for="adress">Adress:</label>
-                <input type="text" id="adress" name="adress" v-model="adress">  
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" v-model="address">  
             </div>
            <div class="formField">
                 <label for="phone">Phone number:</label>
