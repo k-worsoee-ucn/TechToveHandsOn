@@ -12,7 +12,7 @@
     <div v-for="product in products" :key="product.titel">
       <div class="product-card">
         <div class="product-image">
-          <img :src="product.img" alt="Film Poster" />
+          <img :src="product.img" :alt="product.titel" />
         </div>
         <div class="product-info">
           <h2 class="product-title">{{ product.titel }}</h2>
