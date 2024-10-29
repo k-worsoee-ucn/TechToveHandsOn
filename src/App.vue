@@ -1,33 +1,29 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from "vue-router"
 </script>
 
 <template>
-  <header>
-    <nav class="navbar">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/login">Login</RouterLink>
-    </nav>
-  </header>
-
-  <RouterView />
-
+  <div id="app">
+    <header>
+      <nav>
+        <ul>
+          <RouterLink to="/"><li>Home</li></RouterLink>
+          <RouterLink to="/about"><li>About</li></RouterLink>
+          <RouterLink to="/login"><li>Login</li></RouterLink>
+          <RouterLink to="/produkter"><li>produkter</li></RouterLink>
+        </ul>
+      </nav>
+      <div id="loginBox">
+        <p>Log ind din taber!</p>
+        <div>
+          <img src="./assets/img/jonathan-cosens-photography-IgOVPMd862s-unsplash.jpg" alt="Tech Tove">
+        </div>
+      </div>
+    </header>
+    <RouterView />
+  </div>
 </template>
 
-<style lang="scss">
-.navbar {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 30px;
-  box-shadow: 0px 4px 10px black;
-  margin-bottom: 30px;
-}
+<style scoped>
 
-@media (min-width: 768px) {}
-
-@media (min-width: 992px) {}
-
-@media (min-width: 1200px) {}
 </style>
