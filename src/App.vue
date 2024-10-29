@@ -23,13 +23,13 @@
 
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+
 import { ref, onMounted } from 'vue';
 import { auth } from './Services/firebaseConfiq';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const userEmail = ref(null);
 
-onMounted(() => {
   // Set up the listener for authentication state changes
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -40,7 +40,6 @@ onMounted(() => {
       userEmail.value = null;
     }
   });
-});
 </script>
 
 <style scoped>
