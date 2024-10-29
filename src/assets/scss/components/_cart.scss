@@ -11,7 +11,7 @@
 
     .cartItem {
         display: grid;
-        grid-template-columns: 80% 20%;
+        grid-template-columns: 70% 30%;
 
         hr {
             width: 90%;
@@ -26,5 +26,6 @@
     button {
         width: 30%;
         margin: 0 35% 2%;
+        transform: rotate(.5deg);
     }
 }

@@ -18,9 +18,9 @@ console.log('selectedProducts:', selectedProducts)
     <i class="fa-solid fa-cart-shopping"></i>
     <div class="cart">
         <h3>Cart</h3>
-        <div class="cartItem">
-            <p>Title</p>
-            <p>Pris</p>
+        <div class="cartItem" v-for="item in selectedProducts">
+            <p>{{ item.titel }}</p>
+            <p>{{ item.pris }} DKK</p>
             <hr>
         </div>
         <button>Checkout</button>

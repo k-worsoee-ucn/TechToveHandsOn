@@ -23,9 +23,10 @@
           <p class="product-price"><b>Pris:</b> {{ product.pris }} kr</p>
 
           <!-- Knap til at tilføje produkt til kurv -->
-          <button @click="addToCart(product)" class="addProductButton">
+          <button @click="addToCart(product.id)" class="addProductButton" :productid="product.id">
             Tilføj til kurv
           </button>
+
 
           <!-- Knap til at åbne modal for redigering af produkt -->
           <button @click="openEditProductModal(product)" class="editProductButton">
@@ -55,69 +56,91 @@
 </template>
 
 <script setup>
-  import { ref } from "vue";
-  import Modal from "@/components/Modal.vue";
-  import ProductForm from "@/components/ProductForm.vue";
-  import products from "../models/ProductsDatabase"
+import { ref } from "vue";
+import Modal from "@/components/modal.vue";
+import ProductForm from "@/components/ProductForm.vue";
+import products from "../models/ProductsDatabase"
 
-  // Eksempel på initiale produkter
-  const initialProducts = products
+//const cart = localStorage.getItem("cartComponent")
 
-  const productList = ref([...initialProducts]); // Lokalt produktstate
-  const isAddModalOpen = ref(false); // Tilstand for tilføjelsesmodal
-  const isEditModalOpen = ref(false); // Tilstand for redigeringsmodal
-  const selectedProduct = ref(null); // Gemmer det valgte produkt til redigering
+const addToCart = (productId) => {
+  console.log("Product ID:", productId);
 
-  // Åbner modal til at tilføje produkt
-  const openAddProductModal = () => {
-    selectedProduct.value = null; // Nulstil valgt produkt
-    isAddModalOpen.value = true;
-  };
+  // Check if product already exists in the cart
+  if (!cart.value.includes(productId)) {
+    console.log("Product not in cart yet");
+    cart.value.push(productId);
 
-  // Lukker modal til at tilføje produkt
-  const closeAddProductModal = () => {
-    isAddModalOpen.value = false;
-  };
-
-  // Åbner modal til redigering af et produkt
-  const openEditProductModal = (product) => {
-    selectedProduct.value = { ...product }; // Klon produkt til redigering
-    isEditModalOpen.value = true;
-  };
-
-  // Lukker modal til redigering af produkt
-  const closeEditProductModal = () => {
-    isEditModalOpen.value = false;
-  };
-
-  // Tilføjer produkt til listen
-  const addProduct = (productData) => {
-    const newProduct = {
-      id: productList.value.length + 1, // Simple ID-generering
-      ...productData,
-    };
-    productList.value.push(newProduct);
-    closeAddProductModal();
-  };
-
-  // Opdaterer produkt i listen
-  const updateProduct = (productData) => {
-    const index = productList.value.findIndex((p) => p.id === selectedProduct.value.id);
-    if (index !== -1) {
-      productList.value[index] = { ...productData, id: selectedProduct.value.id };
+    // Save to local storage as a JSON string
+    try {
+      console.log("Saving Cart to localStorage:", cart.value);
+      localStorage.setItem("cartContents", JSON.stringify(cart.value));
+    } catch (e) {
+      console.error("Error saving cart contents to localStorage:", e);
     }
-    closeEditProductModal();
-  };
+  } else {
+    console.log("Product already in cart");
+  }
+};
 
-  // Sletter produkt fra listen
-  const deleteProduct = (productId) => {
-    productList.value = productList.value.filter((product) => product.id !== productId);
-  };
+// Eksempel på initiale produkter
+const initialProducts = products
 
-  // Nulstiller produkterne til standard
-  const reset = () => {
-    productList.value = [...initialProducts]; // Sætter produkterne tilbage til initiale produkter
+const productList = ref([...initialProducts]); // Lokalt produktstate
+const isAddModalOpen = ref(false); // Tilstand for tilføjelsesmodal
+const isEditModalOpen = ref(false); // Tilstand for redigeringsmodal
+const selectedProduct = ref(null); // Gemmer det valgte produkt til redigering
+
+// Åbner modal til at tilføje produkt
+const openAddProductModal = () => {
+  selectedProduct.value = null; // Nulstil valgt produkt
+  isAddModalOpen.value = true;
+};
+
+// Lukker modal til at tilføje produkt
+const closeAddProductModal = () => {
+  isAddModalOpen.value = false;
+};
+
+// Åbner modal til redigering af et produkt
+const openEditProductModal = (product) => {
+  selectedProduct.value = { ...product }; // Klon produkt til redigering
+  isEditModalOpen.value = true;
+};
+
+// Lukker modal til redigering af produkt
+const closeEditProductModal = () => {
+  isEditModalOpen.value = false;
+};
+
+// Tilføjer produkt til listen
+const addProduct = (productData) => {
+  const newProduct = {
+    id: productList.value.length + 1, // Simple ID-generering
+    ...productData,
   };
+  productList.value.push(newProduct);
+  closeAddProductModal();
+};
+
+// Opdaterer produkt i listen
+const updateProduct = (productData) => {
+  const index = productList.value.findIndex((p) => p.id === selectedProduct.value.id);
+  if (index !== -1) {
+    productList.value[index] = { ...productData, id: selectedProduct.value.id };
+  }
+  closeEditProductModal();
+};
+
+// Sletter produkt fra listen
+const deleteProduct = (productId) => {
+  productList.value = productList.value.filter((product) => product.id !== productId);
+};
+
+// Nulstiller produkterne til standard
+const reset = () => {
+  productList.value = [...initialProducts]; // Sætter produkterne tilbage til initiale produkter
+};
 </script>
 
 <style scoped>
