@@ -23,11 +23,11 @@ const router = createRouter({
       name: 'login',
       component: LoginView
     },
-    {
-      path: "/produkter",
-      name: "produkter",
-      component: ProdukterView,
-    }
+    // {
+    //   path: "/produkter",
+    //   name: "produkter",
+    //   component: ProdukterView,
+    // }
   ] 
 })
 

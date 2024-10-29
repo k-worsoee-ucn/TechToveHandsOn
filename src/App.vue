@@ -1,7 +1,3 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router"
-</script>
-
 <template>
   <div id="app">
     <header>
@@ -10,11 +6,12 @@ import { RouterLink, RouterView } from "vue-router"
           <RouterLink to="/"><li>Home</li></RouterLink>
           <RouterLink to="/about"><li>About</li></RouterLink>
           <RouterLink to="/login"><li>Login</li></RouterLink>
-          <RouterLink to="/produkter"><li>produkter</li></RouterLink>
+          <RouterLink to="/produkter"><li>Produkter</li></RouterLink>
         </ul>
       </nav>
       <div id="loginBox">
-        <p>Log ind din taber!</p>
+        <p v-if="userEmail">{{ userEmail }}</p>
+        <p v-else>Log ind, taber!</p>
         <div>
           <img src="./assets/img/jonathan-cosens-photography-IgOVPMd862s-unsplash.jpg" alt="Tech Tove">
         </div>
@@ -24,6 +21,28 @@ import { RouterLink, RouterView } from "vue-router"
   </div>
 </template>
 
-<style scoped>
+<script setup>
+import { RouterLink, RouterView } from "vue-router";
+import { ref, onMounted } from 'vue';
+import { auth } from './Services/firebaseConfiq';
+import { onAuthStateChanged } from 'firebase/auth';
 
+const userEmail = ref(null);
+
+onMounted(() => {
+  // Set up the listener for authentication state changes
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      userEmail.value = user.email;
+    } else {
+      // User is signed out
+      userEmail.value = null;
+    }
+  });
+});
+</script>
+
+<style scoped>
+/* Add any styles here */
 </style>
