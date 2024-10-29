@@ -1,5 +1,5 @@
 //Produkt-objekt-array der fungerer som database over produkter i webshoppen
-let products = [
+products = [
   {
     id: 1,
     titel: "Trådløs Mus",
@@ -43,5 +43,4 @@ let products = [
     img: "/Produktbilleder/produkt_webcam.jpg",
   },
 ]
-
 export default products;

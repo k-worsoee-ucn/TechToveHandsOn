@@ -1,5 +1,6 @@
 <script setup>
-import products from "../models/ProductsDatabase";
+import products from "@/models/ProductsDatabase.js";
+//import productModel from "../models/ProductsModel"
 const storedCart = localStorage.getItem("cartContents")
 
 function getProductsByIds(ids) {
