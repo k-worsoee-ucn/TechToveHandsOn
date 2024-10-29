@@ -11,12 +11,12 @@ export class standardOrder {
 
 export class expressOrder {
     constructor(details) {
-        this.type = "ekspres";
+        this.type = "express";
         this.details = details;
     }
 
     process() {
-        console.log("hej ekspres");
+        console.log("hej express");
     }
 }
 

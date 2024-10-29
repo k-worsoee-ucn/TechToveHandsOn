@@ -1,11 +1,11 @@
 <script setup>
+    import CheckoutComp from '../components/CheckoutComp.vue'
 
 </script>
 
 <template>
-    <div>
+   <CheckoutComp/>
 
-    </div>
 </template>
 
 <style lang="scss">
