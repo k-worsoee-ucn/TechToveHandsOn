@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router"
+import cartComponent from '../src/components/cartComponent.vue'
 </script>
 
 <template>
@@ -13,6 +14,17 @@ import { RouterLink, RouterView } from "vue-router"
     </header>
     <RouterView />
   </div>
+  <cartComponent></cartComponent>
 </template>
 
-<style scoped></style>
+<style scoped>
+ul {
+  display: flex;
+  list-style-type: none;
+}
+li {
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+</style>

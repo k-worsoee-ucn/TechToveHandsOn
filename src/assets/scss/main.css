@@ -1,0 +1,1 @@
+.cart{border:1px #000 solid;border-radius:25px;width:25%;margin-left:75%;box-shadow:2px 2px 4px #000}.cart h3{margin-left:3%}.cart .cartItem{display:grid;grid-template-columns:80% 20%}.cart .cartItem hr{width:90%;grid-column:1/span 2}.cart .cartItem p{margin-left:5%}.cart button{width:30%;margin:0 35% 2%}
