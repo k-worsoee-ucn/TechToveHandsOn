@@ -5,15 +5,15 @@ import useCart from "@/services/useCart";
 
 const { cart } = useCart();
 
-const storedCart = localStorage.getItem("cartContents")
+// const storedCart = localStorage.getItem("cartContents")
 
-function getProductsByIds(ids) {
-    // Filter the products array to find matching IDs
-    return products.filter(product => ids.includes(product.id));
-}
+// function getProductsByIds(ids) {
+//     // Filter the products array to find matching IDs
+//     return products.filter(product => ids.includes(product.id));
+// }
 
-const selectedProducts = getProductsByIds(storedCart);
-console.log('selectedProducts:', selectedProducts)
+// const selectedProducts = getProductsByIds(storedCart);
+// console.log('selectedProducts:', selectedProducts)
 
 
 </script>
