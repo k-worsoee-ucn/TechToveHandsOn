@@ -5,17 +5,6 @@ import useCart from "@/services/useCart";
 
 const { cart } = useCart();
 
-// const storedCart = localStorage.getItem("cartContents")
-
-// function getProductsByIds(ids) {
-//     // Filter the products array to find matching IDs
-//     return products.filter(product => ids.includes(product.id));
-// }
-
-// const selectedProducts = getProductsByIds(storedCart);
-// console.log('selectedProducts:', selectedProducts)
-
-
 </script>
 
 <template>
@@ -26,6 +15,10 @@ const { cart } = useCart();
             <p>{{ item.titel }}</p>
             <p>{{ item.pris }} DKK</p>
             <hr>
+        </div>
+        <div class="totalPrice">
+            <p>Total:</p>
+            <p>{{  }} DKK</p>
         </div>
         <button>Checkout</button>
     </div>
