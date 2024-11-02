@@ -1,10 +1,7 @@
 <script setup>
+import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router"
 import cartComponent from '../src/components/cartComponent.vue'
-import { ref } from "vue";
-import useCart from "./services/useCart";
-
-const { cart, totalCartItems } = useCart();
 
 const isShoppingBarVisible = ref(false);
 
@@ -41,9 +38,6 @@ const closeSidebar = () => {
       </div>
       <button class="shopping-cart-btn" @click="toggleShoppingBar">
         <i class="fa-solid fa-cart-shopping fa-2x"></i>
-        <div class="cart-count" v-if="cart.length > 0">
-          <p>{{ totalCartItems }}</p>
-        </div>
       </button>
     </header>
     <RouterView />

@@ -20,7 +20,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { signup } from './../Services/firebaseConfiq.js'
+import { signup } from '@/services/firebaseConfiq'
 
 const email = ref("");
 const password = ref("");

@@ -73,23 +73,5 @@ header {
         i {
             color: black;
         }
-
-        .cart-count {
-            display: flex;
-            position: absolute;
-            top: 0;
-            right: -8%;
-            background-color: pink;
-            border-radius: 50%;
-            width: 19px;
-            height: 19px;
-            justify-content: center;
-            align-items: center;
-
-            p {
-                font-size: 11px;
-                font-weight: bold;
-            }
-        }
     }
 }

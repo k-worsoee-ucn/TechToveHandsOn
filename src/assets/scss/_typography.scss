@@ -20,6 +20,10 @@ p {
     margin: 0;
 }
 
+strong {
+    font-family: 'Roboto', sans-serif;
+}
+
 a {
     font-family: 'Roboto', sans-serif;
     text-decoration: none;
@@ -47,4 +51,5 @@ button {
     padding: 10px 20px;
     border-radius: 6px;
     margin-bottom: 40px;
+    cursor: pointer;
 }
