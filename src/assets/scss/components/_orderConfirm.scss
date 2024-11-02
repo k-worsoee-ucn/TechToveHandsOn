@@ -3,4 +3,13 @@
     flex-direction: column;
     align-items: center;
     gap: 40px;
+
+    .order-conf-items {
+        display: flex;
+        flex-direction: column;
+        
+        :nth-child(1) {
+            margin-top: 10px;
+        }
+    }
 }
