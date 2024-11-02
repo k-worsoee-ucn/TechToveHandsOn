@@ -16,7 +16,7 @@
                 <p>Total:</p>
                 <strong>{{ calculatedTotalPrice }} DKK</strong>
             </div>
-            <button>Checkout</button>
+            <button><RouterLink to="/checkout">Checkout</RouterLink></button>
         </div>
     </transition>
 </template>
