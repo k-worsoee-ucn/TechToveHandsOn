@@ -1,3 +1,12 @@
-@use '../scss/components/cart';
+@use 'typography';
+
+//components
+@use './components/loginForm';
+@use './components/signupForm';
+@use './components/checkoutComp';
+@use "./components/frontpage";
 @use "./components/produktKatalog";
 @use "./components/productForm";
+
+//views
+@use './views/loginView';
