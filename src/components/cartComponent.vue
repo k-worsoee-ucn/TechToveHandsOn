@@ -22,10 +22,10 @@
 </template>
 
 <script setup>
-import useCart from "@/services/useCart";
+import useCart from "../Services/useCart";
 
-const { cart, calculatedTotalPrice, removeFromCart, reactiveCart } = useCart();
+
+const { cart, calculatedTotalPrice, removeFromCart } = useCart();
 
 const { visible } = defineProps(['visible'])
-
 </script>

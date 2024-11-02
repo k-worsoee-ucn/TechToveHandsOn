@@ -1,17 +1,13 @@
 import { ref, watch, computed } from 'vue';
 
+const cart = ref(JSON.parse(localStorage.getItem('cart')) || []);
 
 export default function useCart() {
-  
-  //const cart = ref(JSON.parse(localStorage.getItem('cart')) || []);
-  const cart = ref([])
-
-  const reactiveCart = computed(() => cart.value);
 
   // Watch for changes in cart and save to localStorage
-  // watch(cart, (newCart) => {
-  //   localStorage.setItem('cart', JSON.stringify(newCart));
-  // }, { deep: true });
+  watch(cart, (newCart) => {
+    localStorage.setItem('cart', JSON.stringify(newCart));
+  }, { deep: true });
 
   const addToCart = (product) => {
     // Check if product already exists in the cart
@@ -49,7 +45,7 @@ export default function useCart() {
   });
 
   return {
-      reactiveCart,
+      cart,
       addToCart,
       removeFromCart,
       calculatedTotalPrice,
