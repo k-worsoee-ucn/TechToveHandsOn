@@ -1,12 +1,13 @@
 @use 'typography';
 
 //components
+@use './components/cart';
 @use './components/loginForm';
 @use './components/signupForm';
 @use './components/checkoutComp';
-@use "./components/frontpage";
 @use "./components/produktKatalog";
 @use "./components/productForm";
 
 //views
 @use './views/loginView';
+@use './views/frontPage';

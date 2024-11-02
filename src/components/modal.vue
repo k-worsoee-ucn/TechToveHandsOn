@@ -22,7 +22,7 @@ const close = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .modal {
   position: fixed;
   top: 0;

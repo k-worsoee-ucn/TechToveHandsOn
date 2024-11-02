@@ -1,15 +1,14 @@
 <script setup>
-import products from "@/models/ProductsDatabase.js";
-//import productModel from "../models/ProductsModel"
 import useCart from "@/services/useCart";
 
 const { cart } = useCart();
 
+const { visible } = defineProps(['visible'])
+
 </script>
 
 <template>
-    <i class="fa-solid fa-cart-shopping"></i>
-    <div class="cart">
+    <div class="cart" v-if="visible">
         <h3>Cart</h3>
         <div class="cartItem" v-for="item in cart">
             <p>{{ item.titel }}</p>
@@ -18,7 +17,7 @@ const { cart } = useCart();
         </div>
         <div class="totalPrice">
             <p>Total:</p>
-            <p>{{  }} DKK</p>
+            <p>{{ }} DKK</p>
         </div>
         <button>Checkout</button>
     </div>
