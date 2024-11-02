@@ -18,7 +18,6 @@ const orderDetails = computed(() => ({
     phone: phone.value,
     email: email.value,
 }));
-
 const { createOrder } = useOrderProcessing();
 
 function handleOrder() {
@@ -61,7 +60,7 @@ const changeOrderType = () => {
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" v-model="email">
             </div>
-            <button type="submit">KØB FOR SATAN!</button>
+            <button type="submit"><RouterLink to="/orderconfirm"> KØB FOR SATAN!</RouterLink></button>
         </form>
         <button @click="changeOrderType">{{ isExpress ? 'Vælg Standard' : 'Vælg Express'
             }}</button>
