@@ -1,6 +1,6 @@
-import { orderFactory } from "./orderFactory";
+import { orderFactory } from "@/services/orderFactory";
 
-function useOrderProcessing() {
+export function useOrderProcessing() {
     // const orders = ref([]);
 
     function createOrder(type, details) {
@@ -16,4 +16,3 @@ function useOrderProcessing() {
     };
 }
 
-export default useOrderProcessing()

@@ -22,7 +22,7 @@
       <label>Pris: </label>
       <input type="number" v-model="productData.pris" id="pris" />
     </div>
-    <button type="submit">
+    <button type="submit" class="submitButton">
       {{ mode === "add" ? "Tilføj produkt" : "Gem ændringer" }}
     </button>
   </form>
@@ -73,32 +73,5 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 
-label {
-  font-weight: bold;
-}
-
-input {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
 </style>

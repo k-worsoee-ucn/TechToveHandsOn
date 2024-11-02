@@ -1,5 +1,17 @@
 <script setup>
+import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router"
+import cartComponent from '../src/components/cartComponent.vue'
+
+const isShoppingBarVisible = ref(false);
+
+const toggleShoppingBar = () => {
+  isShoppingBarVisible.value = !isShoppingBarVisible.value;
+}
+
+const closeSidebar = () => {
+  isShoppingBarVisible.value = false;
+}
 </script>
 
 <template>
@@ -7,10 +19,15 @@ import { RouterLink, RouterView } from "vue-router"
     <header>
       <nav>
         <ul>
-          <RouterLink to="/"><li>Home</li></RouterLink>
-          <RouterLink to="/about"><li>About</li></RouterLink>
-          <RouterLink to="/login"><li>Login</li></RouterLink>
-          <RouterLink to="/produkter"><li>produkter</li></RouterLink>
+          <RouterLink to="/">
+            <li>Home</li>
+          </RouterLink>
+          <RouterLink to="/login">
+            <li>Login</li>
+          </RouterLink>
+          <RouterLink to="/produkter">
+            <li>produkter</li>
+          </RouterLink>
         </ul>
       </nav>
       <div id="loginBox">
@@ -19,11 +36,11 @@ import { RouterLink, RouterView } from "vue-router"
           <img src="./assets/img/jonathan-cosens-photography-IgOVPMd862s-unsplash.jpg" alt="Tech Tove">
         </div>
       </div>
+      <button class="shopping-cart-btn" @click="toggleShoppingBar">
+        <i class="fa-solid fa-cart-shopping fa-2x"></i>
+      </button>
     </header>
     <RouterView />
   </div>
+  <cartComponent :visible="isShoppingBarVisible" @close="closeSidebar"></cartComponent>
 </template>
-
-<style scoped>
-
-</style>

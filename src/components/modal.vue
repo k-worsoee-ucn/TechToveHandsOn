@@ -22,7 +22,7 @@ const close = () => {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .modal {
   position: fixed;
   top: 0;
@@ -33,41 +33,38 @@ const close = () => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
 
-.modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
+  .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
 
-.modal-content {
-  position: relative;
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1001;
-}
+    .modal-content {
+      position: relative;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      z-index: 1001;
 
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
+      button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
 
-button {
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
 }
 </style>

@@ -1,42 +1,40 @@
 <template>
   <!-- Knap til at åbne modal for tilføjelse af produkt -->
-  <button @click="openAddProductModal()" class="addProductButton">
+  <button @click="openAddProductModal" class="addProductButton">
     Tilføj produkt
   </button>
 
   <!-- Knap til at nulstille produkterne til standard -->
-  <button @click="reset()" id="reset">Reset</button>
+  <button @click="reset" id="resetButton">Reset</button>
 
   <!-- Container til at vise produktkort -->
   <div class="ProductCard-container">
-    <div v-for="product in products" :key="product.titel">
+    <div v-for="product in productList" :key="product.titel">
       <div class="product-card">
         <div class="product-image">
-          <img :src="product.img" alt="Film Poster" />
+          <img :src="product.img" :alt="product.titel" />
         </div>
         <div class="product-info">
           <h2 class="product-title">{{ product.titel }}</h2>
 
-          <p class="product-catagori">
+          <p class="product-katagori">
             <b>Katagori:</b> {{ product.katagori }}
           </p>
           <p class="product-price"><b>Pris:</b> {{ product.pris }} kr</p>
 
           <!-- Knap til at tilføje produkt til kurv -->
-          <button @click="addToCart()" class="addProductButton">
+          <button @click="addToCart(product)" class="addProductButton" :productid="product.id">
             Tilføj til kurv
           </button>
 
+
           <!-- Knap til at åbne modal for redigering af produkt -->
-          <button @click="openEditProductModal(product)">
+          <button @click="openEditProductModal(product)" class="editProductButton">
             Rediger produkt
           </button>
 
           <!-- Knap til at slette produkt -->
-          <button
-            @click="deleteProduct(product.id)"
-            class="deleteProductButton"
-          >
+          <button @click="deleteProduct(product.id)" class="deleteProductButton">
             Slet produkt
           </button>
         </div>
@@ -52,82 +50,81 @@
     <!-- Modal til at redigere eksisterende produkt -->
     <Modal :isOpen="isEditModalOpen" @close="closeEditProductModal">
       <h2>Redigér produkt</h2>
-      <ProductForm
-        :product="selectedProduct"
-        mode="edit"
-        @submit="updateProduct"
-      />
+      <ProductForm :product="selectedProduct" mode="edit" @submit="updateProduct" />
     </Modal>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
-import Modal from "@/components/Modal.vue"
-import ProductForm from "@/components/ProductForm.vue"
-import ProductController from "@/controllers/ProductsController"
-import { products as initialProducts } from "@/models/ProductsDatabase"
+import { ref } from "vue";
+import Modal from "@/components/modal.vue";
+import ProductForm from "@/components/ProductForm.vue";
+import products from "../models/ProductsDatabase";
 
-// State til produkter og modal-styring
-const products = ref(ProductController.getProducts()) // Henter produkter fra controller
-const isAddModalOpen = ref(false) // Tilstand for tilføjelsesmodal
-const isEditModalOpen = ref(false) // Tilstand for redigeringsmodal
-const selectedProduct = ref(null) // Gemmer det valgte produkt til redigering
-const modalMode = ref("") //Tilstand for modalMode
+//Cart composable
+import useCart from "@/services/useCart";
+const { addToCart } = useCart();
+
+//const cart = localStorage.getItem("cartComponent")
+
+// Eksempel på initiale produkter
+const initialProducts = products
+
+const productList = ref([...initialProducts]); // Lokalt produktstate
+const isAddModalOpen = ref(false); // Tilstand for tilføjelsesmodal
+const isEditModalOpen = ref(false); // Tilstand for redigeringsmodal
+const selectedProduct = ref(null); // Gemmer det valgte produkt til redigering
 
 // Åbner modal til at tilføje produkt
 const openAddProductModal = () => {
-  modalMode.value = "add"
-  isAddModalOpen.value = true
-}
+  selectedProduct.value = null; // Nulstil valgt produkt
+  isAddModalOpen.value = true;
+};
 
 // Lukker modal til at tilføje produkt
 const closeAddProductModal = () => {
-  isAddModalOpen.value = false
-}
+  isAddModalOpen.value = false;
+};
 
 // Åbner modal til redigering af et produkt
 const openEditProductModal = (product) => {
-  modalMode.value = "edit"
-  selectedProduct.value = { ...product }
-  isEditModalOpen.value = true
-}
+  selectedProduct.value = { ...product }; // Klon produkt til redigering
+  isEditModalOpen.value = true;
+};
 
 // Lukker modal til redigering af produkt
 const closeEditProductModal = () => {
-  isEditModalOpen.value = false
-}
+  isEditModalOpen.value = false;
+};
 
-// CRUD-funktioner med controller
-
-// Tilføjer produkt og opdaterer produktlisten
+// Tilføjer produkt til listen
 const addProduct = (productData) => {
-  ProductController.addProduct(productData)
-  products.value = [...ProductController.getProducts()]
-  closeAddProductModal()
-}
-
-// Opdaterer produkt og opdaterer produktlisten
-const updateProduct = (productData) => {
-  ProductController.updateProduct({
+  const newProduct = {
+    id: productList.value.length + 1, // Simple ID-generering
     ...productData,
-    id: selectedProduct.value.id,
-  }) // Opdater produkt via controller
-  products.value = [...ProductController.getProducts()]
-  closeEditProductModal()
-}
+  };
+  productList.value.push(newProduct);
+  closeAddProductModal();
+};
 
-// Sletter produkt og opdaterer produktlisten
+// Opdaterer produkt i listen
+const updateProduct = (productData) => {
+  const index = productList.value.findIndex((p) => p.id === selectedProduct.value.id);
+  if (index !== -1) {
+    productList.value[index] = { ...productData, id: selectedProduct.value.id };
+  }
+  closeEditProductModal();
+};
+
+// Sletter produkt fra listen
 const deleteProduct = (productId) => {
-  ProductController.deleteProduct(productId)
-  products.value = [...ProductController.getProducts()]
-}
+  productList.value = productList.value.filter((product) => product.id !== productId);
+};
 
 // Nulstiller produkterne til standard
 const reset = () => {
-  ProductController.resetToDefault()
-  products.value = [...ProductController.getProducts()]
-}
+  productList.value = [...initialProducts]; // Sætter produkterne tilbage til initiale produkter
+};
 </script>
 
 <style scoped>
@@ -183,6 +180,7 @@ button:hover {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .addProductButton:hover {
   background-color: #0c8f21;
 }
@@ -196,6 +194,7 @@ button:hover {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .deleteProductButton:hover {
   background-color: #bd1b1b;
 }

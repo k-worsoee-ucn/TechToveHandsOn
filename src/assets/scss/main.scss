@@ -4,7 +4,10 @@
 @use './components/loginForm';
 @use './components/signupForm';
 @use './components/checkoutComp';
-@use "./components/frontpage";
+@use "./components/produktKatalog";
+@use "./components/productForm";
+@use './components/cartComponent';
 
 //views
 @use './views/loginView';
+@use './views/frontPage';

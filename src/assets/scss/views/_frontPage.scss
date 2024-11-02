@@ -1,18 +1,18 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
 
-header{
+header {
     display: flex;
     align-items: center;
     justify-content: center;
     column-gap: 2rem;
     padding-inline: 10vw;
 
-    nav{
-        
-        ul{
+    nav {
+
+        ul {
             display: flex;
             // flex-wrap: wrap;
             justify-content: center;
@@ -21,19 +21,20 @@ header{
 
             padding-block: .5rem;
 
-            a{
+            a {
                 padding: .5rem;
                 text-decoration: none;
 
-                &:hover{
+                &:hover {
                     animation: spin .5s linear infinite;
 
                     @keyframes spin {
-                        from{
+                        from {
                             transform: rotate(0deg);
-                            
+
                         }
-                        to{
+
+                        to {
                             transform: rotate(360deg);
                         }
                     }
@@ -42,7 +43,7 @@ header{
         }
     }
 
-    #loginBox{
+    #loginBox {
         display: flex;
         align-items: center;
         column-gap: 2rem;
@@ -50,15 +51,27 @@ header{
         margin-block: 1rem;
         border-left: 1px solid rgb(208, 208, 208);
 
-        div{
+        div {
             max-width: 5vw;
 
-            img{
+            img {
                 object-fit: contain;
                 width: 100%;
                 border-radius: 100%;
             }
         }
 
+    }
+
+    .shopping-cart-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        margin: 0;
+
+        i {
+            color: black;
+        }
     }
 }

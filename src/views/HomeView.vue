@@ -1,5 +1,7 @@
 <script setup></script>
 
 <template>
-  <main></main>
+  <main>
+    Welcome to TechTove!
+  </main>
 </template>
