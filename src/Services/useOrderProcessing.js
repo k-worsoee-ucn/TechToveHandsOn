@@ -12,7 +12,6 @@ export function useOrderProcessing() {
 
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                console.log("processing")
                 resolve(order); // Resolve with the order details after processing
             }, 2000); // Simulate 3 seconds of transaction time
         });
