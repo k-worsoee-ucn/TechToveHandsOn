@@ -18,7 +18,7 @@ const email = ref("");
 
 
 const orderDetails = computed(() => ({
-    CartItems: cart.value,
+    cartItems: cart.value,
     firstName: firstName.value,
     lastName: lastName.value,
     address: address.value,

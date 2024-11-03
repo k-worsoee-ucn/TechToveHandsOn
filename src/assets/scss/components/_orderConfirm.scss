@@ -4,12 +4,28 @@
     align-items: center;
     gap: 40px;
 
-    .order-conf-items {
-        display: flex;
-        flex-direction: column;
-        
-        :nth-child(1) {
-            margin-top: 10px;
+    .order-conf-details {
+        padding: 20px;
+        background: beige;
+        border-radius: 10px;
+
+        .order-conf-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            :nth-child(1) {
+                margin-top: 10px;
+            }
+
+            .order-product {
+                display: flex;
+                align-items: center;
+
+                img {
+                    height: 150px;
+                }
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ export function useOrderProcessing() {
 
     async function createOrder(type, details) {
         const order = orderFactory(type, details);
-        console.dir(order);
         transactionDetails.value.push(order);
         order.process();
 
