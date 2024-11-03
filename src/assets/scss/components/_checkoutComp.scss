@@ -1,17 +1,17 @@
-section {
+.checkout-component {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     form {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
-    
+
         .formField {
             display: flex;
             flex-direction: column;
         }
-    } 
+    }
 }

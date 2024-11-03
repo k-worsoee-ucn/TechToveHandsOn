@@ -1,0 +1,13 @@
+.checkout-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    align-items: center;
+    gap: 3rem;
+
+    .checkout-content {
+        display: flex;
+        justify-content: center;
+        gap: 50%;
+    }
+}

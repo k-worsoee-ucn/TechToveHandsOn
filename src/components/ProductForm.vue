@@ -2,13 +2,7 @@
   <form @submit.prevent="handleSubmit">
     <label>Upload produktbillede:</label>
     <div id="editImg">
-      <input
-        type="file"
-        id="img"
-        name="img"
-        accept="image/*"
-        @change="handleFileChange"
-      />
+      <input type="file" id="img" name="img" accept="image/*" @change="handleFileChange" />
     </div>
     <div id="editTitle">
       <label>Titel:</label>
@@ -72,6 +66,4 @@ const handleSubmit = () => {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

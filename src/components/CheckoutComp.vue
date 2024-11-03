@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useOrderProcessing } from '@/services/useOrderProcessing';
+import { useOrderProcessing } from '../Services/useOrderProcessing';
 
 const isExpress = ref(false);
 const orderType = ref("standard");
@@ -38,7 +38,7 @@ const changeOrderType = () => {
 </script>
 
 <template>
-    <section>
+    <section class="checkout-component">
         <form @submit.prevent="handleOrder">
             <div class="formField">
                 <label for="firstName">First name:</label>
@@ -60,10 +60,13 @@ const changeOrderType = () => {
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" v-model="email">
             </div>
-            <button type="submit"><RouterLink to="/orderconfirm"> KØB FOR SATAN!</RouterLink></button>
+            <button type="submit">
+                <RouterLink to="/orderconfirm"> KØB FOR SATAN!</RouterLink>
+            </button>
         </form>
-        <button @click="changeOrderType">{{ isExpress ? 'Vælg Standard' : 'Vælg Express'
-            }}</button>
+        <button @click="changeOrderType">
+            {{ isExpress ? 'Vælg Standard' : 'Vælg Express' }}
+        </button>
     </section>
 </template>
 

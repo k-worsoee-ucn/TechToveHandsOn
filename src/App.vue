@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router"
-import cartComponent from '../src/components/cartComponent.vue'
+import cartComponent from './components/cartComponent.vue'
 
 const isShoppingBarVisible = ref(false);
 
@@ -26,7 +26,7 @@ const closeSidebar = () => {
             <li>Login</li>
           </RouterLink>
           <RouterLink to="/produkter">
-            <li>produkter</li>
+            <li>Produkter</li>
           </RouterLink>
         </ul>
       </nav>

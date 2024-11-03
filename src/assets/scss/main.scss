@@ -8,7 +8,9 @@
 @use "./components/productForm";
 @use './components/cartComponent';
 @use './components/orderConfirm';
+@use './components/checkoutCartList';
 
 //views
 @use './views/loginView';
 @use './views/frontPage';
+@use './views/checkoutView';

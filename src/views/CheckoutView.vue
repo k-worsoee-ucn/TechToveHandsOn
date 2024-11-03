@@ -1,12 +1,16 @@
 <script setup>
-    import CheckoutComp from '../components/CheckoutComp.vue'
+import CheckoutComp from '../components/CheckoutComp.vue'
+import CheckoutCartList from '@/components/CheckoutCartList.vue';
 
 </script>
 
 <template>
-   <CheckoutComp/>
+    <section class="checkout-container">
+        <h2>Checkout</h2>
+        <div class="checkout-content">
+            <CheckoutComp />
+            <CheckoutCartList />
+        </div>
+    </section>
 
 </template>
-
-<style lang="scss">
-</style>
