@@ -1,6 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue';
+import router from '@/router';
 import { useOrderProcessing } from '../Services/useOrderProcessing';
+import useCart from '@/Services/useCart';
+
+
+const { createOrder, transactionDetails } = useOrderProcessing();
+const { cart } = useCart()
 
 const isExpress = ref(false);
 const orderType = ref("standard");
@@ -12,16 +18,23 @@ const email = ref("");
 
 
 const orderDetails = computed(() => ({
+    CartItems: cart.value,
     firstName: firstName.value,
     lastName: lastName.value,
     address: address.value,
     phone: phone.value,
     email: email.value,
 }));
-const { createOrder } = useOrderProcessing();
 
-function handleOrder() {
-    createOrder(orderType.value, orderDetails.value);
+const handleOrder = async () => {
+    try {
+        await createOrder(orderType.value, orderDetails.value);
+        console.log(transactionDetails.value)
+        router.push({ name: 'orderconfirm' });
+    }
+    catch (error) {
+        console.error('Error processing order:', error);
+    }
 }
 
 
@@ -61,12 +74,17 @@ const changeOrderType = () => {
                 <input type="email" id="email" name="email" v-model="email">
             </div>
             <button type="submit">
-                <RouterLink to="/orderconfirm"> KØB FOR SATAN!</RouterLink>
+                KØB FOR SATAN!
             </button>
         </form>
-        <button @click="changeOrderType">
-            {{ isExpress ? 'Vælg Standard' : 'Vælg Express' }}
-        </button>
+
+        <div class="delivery-wrapper">
+            <strong>Delivery method: </strong>
+            <p>{{ orderType }}</p>
+            <button @click="changeOrderType">
+                {{ isExpress ? 'Chose Standard' : 'Chose Express' }}
+            </button>
+        </div>
     </section>
 </template>
 

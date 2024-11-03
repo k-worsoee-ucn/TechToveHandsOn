@@ -1,7 +1,13 @@
 <script setup>
 import useCart from "../Services/useCart";
+import { useOrderProcessing } from '../Services/useOrderProcessing';
+
 
 const { cart } = useCart();
+
+const { transactionDetails } = useOrderProcessing()
+
+console.log("is you working?: " + transactionDetails)
 </script>
 
 <template>
@@ -14,6 +20,13 @@ const { cart } = useCart();
                 <p>{{ item.pris }} DKK</p>
                 <p>{{ item.quantity }} stk</p>
             </div>
+
+            <div class="order-conf-items" v-for="(order, index) in transactionDetails" :key="index">
+
+                <p>{{ order.type }}</p>
+                <p>{{ order.details }} DKK</p>
+            </div>
+
         </div>
     </div>
 </template>
