@@ -2,6 +2,8 @@
 import { ref } from "vue";
 import { RouterLink, RouterView } from "vue-router"
 import cartComponent from './components/cartComponent.vue'
+import { auth } from './Services/firebaseConfiq';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const isShoppingBarVisible = ref(false);
 
@@ -12,6 +14,20 @@ const toggleShoppingBar = () => {
 const closeSidebar = () => {
   isShoppingBarVisible.value = false;
 }
+
+const userEmail = ref(null);
+
+// Lytter efter ændringer i authentication staten for brugeren
+// Ændres denne state, gør følgende; ...
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Tjekker om user objektet ikke er tomt / logget ind
+    userEmail.value = user.email;
+  } else {
+    // Brugeren er logget ud
+    userEmail.value = null;
+  }
+});
 </script>
 
 <template>
@@ -31,7 +47,8 @@ const closeSidebar = () => {
         </ul>
       </nav>
       <div id="loginBox">
-        <p>Log ind din taber!</p>
+        <p v-if="userEmail">{{ userEmail }}</p>
+        <p v-else>Log ind din taber!</p>
         <div>
           <img src="./assets/img/jonathan-cosens-photography-IgOVPMd862s-unsplash.jpg" alt="Tech Tove">
         </div>

@@ -35,3 +35,5 @@ export const login = async (email, password) => {
     return { success: false, message: error.message };
   }
 }
+
+export { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword };
