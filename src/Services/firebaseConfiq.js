@@ -11,6 +11,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize en instanse af Firebase Authentication
 const auth = getAuth(app);
 
 
